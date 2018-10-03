@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:music_charts/common/screen.dart';
-import 'pages/charts_page.dart';
+import 'package:music_charts/pages/artist_charts_page.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'last.fm Charts',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Screen(
-        child: ChartsPage(),
-      ),
+      home: ArtistChartsPage(),
     );
   }
 }

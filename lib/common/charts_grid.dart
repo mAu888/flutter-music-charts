@@ -31,8 +31,8 @@ class ChartsGrid extends StatelessWidget {
           onTap: () => onTap(index),
           child: CachedNetworkImage(
             imageUrl: item.imageUrl,
-            placeholder: Center(
-              child: CircularProgressIndicator(),
+            placeholder: DecoratedBox(
+              decoration: BoxDecoration(color: Theme.of(context).disabledColor),
             ),
             fit: BoxFit.cover,
           ),

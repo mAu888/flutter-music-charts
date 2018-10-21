@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TappableImage extends StatelessWidget {
-  final Image child;
+  final Widget child;
   final Function() onTap;
 
   const TappableImage({Key key, @required this.child, this.onTap})

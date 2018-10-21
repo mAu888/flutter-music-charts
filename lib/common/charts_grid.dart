@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:music_charts/common/tappable_image.dart';
 
 class ChartItem {
@@ -28,7 +29,13 @@ class ChartsGrid extends StatelessWidget {
 
         return TappableImage(
           onTap: () => onTap(index),
-          child: Image.network(item.imageUrl, fit: BoxFit.cover),
+          child: CachedNetworkImage(
+            imageUrl: item.imageUrl,
+            placeholder: Center(
+              child: CircularProgressIndicator(),
+            ),
+            fit: BoxFit.cover,
+          ),
         );
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

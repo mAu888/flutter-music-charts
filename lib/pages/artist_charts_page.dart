@@ -5,6 +5,7 @@ import 'package:music_charts/bloc/artists_charts_page_bloc.dart';
 import 'package:music_charts/common/charts_grid.dart';
 import 'package:music_charts/common/charts_page.dart';
 import 'package:music_charts/common/screen.dart';
+import 'package:music_charts/pages/artist_detail_page.dart';
 
 class ArtistChartsPage extends StatelessWidget {
   final ArtistsChartsPageBLoC _bloc = ArtistsChartsPageBLoC(ApiClient());
@@ -31,7 +32,11 @@ class ArtistChartsPage extends StatelessWidget {
             items: snapshot.data,
             transform: (item) =>
                 ChartItem(title: item.name, imageUrl: item.imageUrl),
-            onTap: (artist) => print('tapped on ${artist.name}'),
+            onTap: (artist) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ArtistDetailPage(artist: artist),
+                )),
           );
         }
       },

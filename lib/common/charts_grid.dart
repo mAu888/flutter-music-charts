@@ -23,6 +23,7 @@ class ChartsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: EdgeInsets.symmetric(vertical: 12.0),
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) {
         final item = items[index];

@@ -4,6 +4,7 @@ import 'dart:convert' show utf8, json;
 
 import 'package:music_charts/api/keys.dart';
 import 'package:music_charts/artist.dart';
+import 'package:music_charts/artist_metadata.dart';
 
 class ApiClient {
   final _keys = Keys();
@@ -23,6 +24,14 @@ class ApiClient {
     });
   }
 
+  Future<ArtistMetadata> getMetadata(String id) async {
+    final uri = await _createGetUri('artist.getinfo', { 'mbid': id });
+    return _get(uri, (data) {
+      Map<String, dynamic> object = data;
+      return ArtistMetadata.fromJson(object['artist']);
+    });
+  }
+
   Future<T> _get<T>(Uri url, T Function(dynamic) transformer) async {
     final request = await _client.getUrl(url);
     final response = await request.close();
@@ -36,17 +45,23 @@ class ApiClient {
     return transformer(jsonObject);
   }
 
-  Future<Uri> _createGetUri(String method) async { 
+  Future<Uri> _createGetUri(String method,
+      [Map<String, String> queryParameters]) async {
     final key = await _keys.getApiKey();
+    queryParameters = queryParameters ?? {};
+    final defaultQueryParameters = {
+      'method': method,
+      'api_key': key,
+      'format': 'json'
+    };
+
+    queryParameters.addAll(defaultQueryParameters);
+
     return Uri(
-        host: _host,
-        scheme: 'https',
-        path: '2.0',
-        queryParameters: {
-          'method': method,
-          'api_key': key,
-          'format': 'json'
-        },
-      );
+      host: _host,
+      scheme: 'https',
+      path: '2.0',
+      queryParameters: queryParameters,
+    );
   }
 }

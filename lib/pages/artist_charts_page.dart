@@ -4,6 +4,7 @@ import 'package:music_charts/artist.dart';
 import 'package:music_charts/bloc/artists_charts_page_bloc.dart';
 import 'package:music_charts/common/charts_grid.dart';
 import 'package:music_charts/common/charts_page.dart';
+import 'package:music_charts/common/screen.dart';
 
 class ArtistChartsPage extends StatelessWidget {
   final ArtistsChartsPageBLoC _bloc = ArtistsChartsPageBLoC(ApiClient());
@@ -14,10 +15,15 @@ class ArtistChartsPage extends StatelessWidget {
       stream: _bloc.artists,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              snapshot.error,
-              style: Theme.of(context).textTheme.body1,
+          return Screen(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Text(
+                  "An error occured. Please retry in a bit.",
+                  style: Theme.of(context).textTheme.body1,
+                ),
+              ),
             ),
           );
         } else {

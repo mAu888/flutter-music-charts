@@ -30,12 +30,33 @@ class ChartsGrid extends StatelessWidget {
 
         return TappableImage(
           onTap: () => onTap(index),
-          child: CachedNetworkImage(
-            imageUrl: item.imageUrl,
-            placeholder: DecoratedBox(
-              decoration: BoxDecoration(color: Theme.of(context).disabledColor),
-            ),
-            fit: BoxFit.cover,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0.0,
+                top: 0.0,
+                child: CachedNetworkImage(
+                  imageUrl: item.imageUrl,
+                  placeholder: DecoratedBox(
+                    decoration:
+                        BoxDecoration(color: Theme.of(context).disabledColor),
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(item.title, style: Theme.of(context).textTheme.subhead,),
+                  ),
+                  decoration: BoxDecoration(color: Colors.white70),
+                ),
+              )
+            ],
           ),
         );
       },

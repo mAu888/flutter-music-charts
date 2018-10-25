@@ -5,6 +5,7 @@ import 'dart:convert' show utf8, json;
 import 'package:music_charts/api/keys.dart';
 import 'package:music_charts/artist.dart';
 import 'package:music_charts/artist_metadata.dart';
+import 'package:music_charts/track.dart';
 
 class ApiClient {
   final _keys = Keys();
@@ -21,6 +22,15 @@ class ApiClient {
       Map<String, dynamic> object = data;
       List<dynamic> list = object['artists']['artist'];
       return list.map((artist) => Artist.fromJson(artist)).toList();
+    });
+  }
+
+  Future<List<Track>> getTopTracks(String id) async {
+    final uri = await _createGetUri('artist.gettoptracks', { 'mbid': id });
+    return _get(uri, (data) {
+      Map<String, dynamic> object = data;
+      List<dynamic> list = object['toptracks']['track'];
+      return list.map((track) => Track.fromJson(track)).toList();
     });
   }
 

@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+
+@immutable
 class Artist {
   final String id;
   final String name;
@@ -6,7 +9,7 @@ class Artist {
   final bool isStreamable;
   final String imageUrl;
 
-  Artist(
+  const Artist(
       {this.id,
       this.name,
       this.playcount,

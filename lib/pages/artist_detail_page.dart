@@ -24,6 +24,7 @@ class ArtistDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Screen(
+      title: artist.name,
       child: ListView.builder(
         padding: EdgeInsets.only(bottom: 18.0),
         itemCount: _listItems.length,
@@ -132,7 +133,7 @@ class ArtistDetailPage extends StatelessWidget {
 
   Widget buildLoadingIndicator() => Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 18.0),
           child: CircularProgressIndicator(),
         ),
       );
@@ -144,7 +145,6 @@ class _ListItemHeader extends _ListItem {
   final String title;
 
   _ListItemHeader(this.title);
-  _ListItemHeader.fromArtist(Artist artist) : this(artist.name);
 }
 
 class _ListItemImage extends _ListItem {
@@ -166,9 +166,6 @@ class _ListItemTopTracks extends _ListItem {}
 List<_ListItem> _buildListItems(Artist artist) {
   var items = <_ListItem>[
     _ListItemImage(artist),
-    _ListItemPadding(18.0),
-    _ListItemHeader.fromArtist(artist),
-    _ListItemPadding(18.0),
     _ListItemBio(),
     _ListItemPadding(18.0),
     _ListItemHeader("Tracks"),

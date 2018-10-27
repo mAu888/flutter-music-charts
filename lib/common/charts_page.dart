@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:music_charts/common/charts_grid.dart';
-import 'package:music_charts/common/screen.dart';
 import 'package:music_charts/common/when_loading.dart';
 
 class ChartsPage<T> extends StatelessWidget {
@@ -14,16 +13,14 @@ class ChartsPage<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Screen(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: WhenLoading(
-          isLoading: items == null,
-          builder: () => ChartsGrid(
-                onTap: (index) => onTap != null ? onTap(items[index]) : () {},
-                items: items.map((item) => transform(item)).toList(),
-              ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: WhenLoading(
+        isLoading: items == null,
+        builder: () => ChartsGrid(
+              onTap: (index) => onTap != null ? onTap(items[index]) : () {},
+              items: items.map((item) => transform(item)).toList(),
+            ),
       ),
     );
   }

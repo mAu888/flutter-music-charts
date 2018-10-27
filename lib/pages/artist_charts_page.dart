@@ -15,31 +15,37 @@ class ArtistChartsPage extends StatelessWidget {
     return StreamBuilder(
       stream: _bloc.artists,
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Screen(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Text(
-                  "An error occured. Please retry in a bit.",
-                  style: Theme.of(context).textTheme.body1,
-                ),
-              ),
-            ),
-          );
-        } else {
-          return ChartsPage<Artist>(
-            items: snapshot.data,
-            transform: (item) =>
-                ChartItem(title: item.name, imageUrl: item.imageUrl),
-            onTap: (artist) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ArtistDetailPage(artist: artist),
-                )),
-          );
-        }
+        return Screen(
+          title: "Global charts",
+          child: _buildChild(context, snapshot),
+        );
       },
     );
+  }
+
+  Widget _buildChild(
+      BuildContext context, AsyncSnapshot<List<Artist>> snapshot) {
+    if (snapshot.hasError) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Text(
+            "An error occured. Please retry in a bit.",
+            style: Theme.of(context).textTheme.body1,
+          ),
+        ),
+      );
+    } else {
+      return ChartsPage<Artist>(
+        items: snapshot.data,
+        transform: (item) =>
+            ChartItem(title: item.name, imageUrl: item.imageUrl),
+        onTap: (artist) => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ArtistDetailPage(artist: artist),
+            )),
+      );
+    }
   }
 }

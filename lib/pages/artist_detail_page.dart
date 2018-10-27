@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:music_charts/api/apiclient.dart';
@@ -13,31 +13,13 @@ class ArtistDetailPage extends StatelessWidget {
   final ArtistDetailPageBloC _bloc;
   final List<_ListItem> _listItems;
 
+  final _formatter = NumberFormat.compact();
+
   ArtistDetailPage({Key key, this.artist})
       : assert(artist != null),
         _bloc = ArtistDetailPageBloC(artist, ApiClient()),
         _listItems = _buildListItems(artist),
         super(key: key);
-
-  // StreamSubscription<List<Track>> _subscription;
-
-  // @override
-  // void initState() {
-  //   _bloc = ArtistDetailPageBloC(widget.artist, ApiClient());
-  //   _listItems = _buildListItems(widget.artist);
-
-  //   _subscription = _bloc.tracks.take(1).listen((tracks) {
-  //     setState(() => _listItems = _buildListItems(widget.artist, tracks));
-  //   });
-
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _subscription.cancel();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,23 +36,7 @@ class ArtistDetailPage extends StatelessWidget {
           } else if (item is _ListItemBio) {
             return buildShortBio(context);
           } else if (item is _ListItemTopTracks) {
-            return StreamBuilder<List<Track>>(
-              stream: _bloc.tracks,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return buildLoadingIndicator();
-                }
-
-                return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return buildTrack(context, snapshot.data[index].name);
-                  },
-                  physics: ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                );
-              },
-            );
+            return buildTopTracks();
           } else if (item is _ListItemPadding) {
             return buildPadding(vertical: item.vertical);
           } else {
@@ -78,6 +44,27 @@ class ArtistDetailPage extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  StreamBuilder<List<Track>> buildTopTracks() {
+    return StreamBuilder<List<Track>>(
+      stream: _bloc.tracks,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return buildLoadingIndicator();
+        }
+
+        return ListView.separated(
+          itemCount: snapshot.data.length,
+          itemBuilder: (context, index) {
+            return buildTrack(context, snapshot.data[index]);
+          },
+          separatorBuilder: (context, index) => Divider(),
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+        );
+      },
     );
   }
 
@@ -92,16 +79,11 @@ class ArtistDetailPage extends StatelessWidget {
         ),
       );
 
-  Widget buildTrack(BuildContext context, String title) => InkWell(
-        onTap: () {},
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 12.0),
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.subhead,
-          ),
-        ),
-      );
+  Widget buildTrack(BuildContext context, Track track) => ListTile(
+    onTap: () {},
+    title: Text(track.name),
+    subtitle: Text("Playcount: ${_formatter.format(track.playCount)}"),
+  );
 
   Widget buildSeparator() => Padding(
         padding: const EdgeInsets.only(left: 18.0),

@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 class ArtistDetailPageBloC {
   ApiClient _apiClient;
+
   Observable<ArtistMetadata> _info;
   Observable<List<Track>> _tracks;
 
@@ -14,7 +15,9 @@ class ArtistDetailPageBloC {
 
   ArtistDetailPageBloC(Artist artist, this._apiClient)
       : assert(_apiClient != null) {
-    _info = Observable.fromFuture(_apiClient.getMetadata(artist.id));
-    _tracks = Observable.fromFuture(_apiClient.getTopTracks(artist.id));
+    _info = Observable.fromFuture(_apiClient.getMetadata(artist.id))
+        .shareReplay(maxSize: 1);
+    _tracks = Observable.fromFuture(_apiClient.getTopTracks(artist.id))
+        .shareReplay(maxSize: 1);
   }
 }

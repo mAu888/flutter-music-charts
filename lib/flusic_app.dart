@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:music_charts/common/scene_navigator.dart';
-import 'package:music_charts/common/screen.dart';
 import 'package:music_charts/pages/artist_charts_page.dart';
+import 'package:music_charts/pages/track_charts_page.dart';
 
 enum FlusicAppTab { globalCharts, userCharts }
 
@@ -37,12 +37,7 @@ class FlusicAppState extends State<FlusicApp> {
             ),
             _buildOffstageNavigator(
               tab: FlusicAppTab.userCharts,
-              child: Screen(
-                title: "tolo",
-                child: Center(
-                  child: Text("Hit me baby, one more time!!"),
-                ),
-              ),
+              child: TrackChartsPage(),
             ),
           ],
         ),
@@ -80,12 +75,12 @@ class FlusicAppState extends State<FlusicApp> {
   List<BottomNavigationBarItem> _buildNavigationBarItems() {
     return [
       BottomNavigationBarItem(
-        title: Text("Global"),
-        icon: Icon(FontAwesomeIcons.globe),
+        title: Text("Artist"),
+        icon: Icon(FontAwesomeIcons.user),
       ),
       BottomNavigationBarItem(
-        title: Text("Personal"),
-        icon: Icon(FontAwesomeIcons.user),
+        title: Text("Tracks"),
+        icon: Icon(FontAwesomeIcons.compactDisc),
       ),
     ];
   }

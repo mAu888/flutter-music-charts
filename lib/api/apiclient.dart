@@ -25,6 +25,15 @@ class ApiClient {
     });
   }
 
+  Future<List<Track>> getTrackCharts() async {
+    final uri = await _createGetUri('chart.gettoptracks');
+    return _get(uri, (data) {
+      Map<String, dynamic> object = data;
+      List<dynamic> list = object['tracks']['track'];
+      return list.map((track) => Track.fromJson(track)).toList();
+    });
+  }
+
   Future<List<Track>> getTopTracks(String id) async {
     final uri = await _createGetUri('artist.gettoptracks', { 'mbid': id });
     return _get(uri, (data) {

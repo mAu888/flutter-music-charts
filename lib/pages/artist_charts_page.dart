@@ -16,7 +16,7 @@ class ArtistChartsPage extends StatelessWidget {
       stream: _bloc.artists,
       builder: (context, snapshot) {
         return Screen(
-          title: "Global charts",
+          title: "Artist charts",
           child: _buildChild(context, snapshot),
         );
       },
